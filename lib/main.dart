@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget{
   Widget build(BuildContext context) {
     // TODO: implement build
     return MaterialApp(
-      title: 'Demo Flutter',
+      title: 'Objek WIsata',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -21,6 +21,12 @@ class MyApp extends StatelessWidget{
     throw UnimplementedError();
   }
 }
+
+class Home extends StatefulWidget{
+  @override
+  HomeState createState() => HomeState();
+}
+
 
 /*class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -49,7 +55,7 @@ class MyApp extends StatelessWidget{
   }
 }*/
 
-class Home extends StatelessWidget {
+class HomeState extends State<Home> {
 
 
   // This widget is the home page of your application. It is stateful, meaning
@@ -65,6 +71,43 @@ class Home extends StatelessWidget {
   final String location = 'Bandung, Jawa Barat';
   final String description = '"Tangkuban Parahu atau Gunung Tangkuban Perahu adalah salah satu gunung yang terletak di Provinsi Jawa Barat , Indonesia.  Sekitar 20 km ke arah utara Kota Bandung, dengan rimbun pohon pinus dan hamparan kebun teh di sekitarnya, Gunung Tangkuban Perahu mempunyai ketinggian setinggi 2.084 meter"';
 
+  String name = '';
+  String text = '';
+
+  final List<String> Kota = ['Semarang', 'Jogja', 'Jakarta'];
+  bool selected1 = false;
+  bool selected2 = false;
+  bool selected3 = false;
+  List<int> list = [];
+
+  void onChanged1(bool value){
+    setState(() {
+      this.selected1 = value;
+    });
+    if (value) list.add(0);
+    else list.remove(0);
+    print(list);
+  }
+
+  void onChanged2(bool value){
+    setState(() {
+      this.selected2 = value;
+    });
+    if (value) list.add(1);
+    else list.remove(1);
+    print(list);
+  }
+
+  void onChanged3(bool value){
+    setState(() {
+      this.selected3 = value;
+    });
+    if (value) list.add(3);
+    else list.remove(3);
+    print(list);
+  }
+
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -72,7 +115,7 @@ class Home extends StatelessWidget {
       appBar: AppBar(
         title: Text("Objek Wisata"),
       ),
-      body: Column(
+      body: Column( 
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Image.asset(
@@ -122,10 +165,77 @@ class Home extends StatelessWidget {
               ),
               softWrap: true,
             ),
+          ),
+          Column(
+            children: <Widget>[
+              TextField(
+                onChanged: (String value){ onChanged(value); },
+                decoration: InputDecoration(
+                  hintText: 'Input Nama Anda',
+                  hintStyle: TextStyle(
+                    fontStyle: FontStyle.normal,
+                  )
+                ),
+              ),
+              RaisedButton(
+                child: Text('Klik'),
+                onPressed: () {onPressed();},
+              ),
+              Container(height: 15.0),
+              Text(this.text),
+            ],
+          ),
+          Column(
+            children: <Widget>[
+              Text('Kota yang sering kamu kunjungi ?'),
+              Row(
+                children: <Widget>[
+                  Checkbox(
+                    value: this.selected1,
+                    onChanged: (bool value) {onChanged1(value);},
+                  ),
+                  Container(width: 8.0,),
+                  Text(this.Kota[0])
+                ],
+              ),
+              Row(
+                children: <Widget>[
+                  Checkbox(
+                    value: this.selected2,
+                    onChanged: (bool value) {onChanged2(value);},
+                  ),
+                  Container(width: 8.0,),
+                  Text(this.Kota[1])
+                ],
+              ),
+              Row(
+                children: <Widget>[
+                  Checkbox(
+                    value: this.selected3,
+                    onChanged: (bool value) {onChanged3(value);},
+                  ),
+                  Container(width: 8.0,),
+                  Text(this.Kota[2])
+                ],
+              )
+            ],
           )
         ],
       ),
     );
+  }
+
+  void onChanged(String value) {
+    setState((){
+      this.name = value;
+    });
+  }
+
+  void onPressed() {
+    setState((){
+      if (this.name.trim().length == 0) return;
+      this.text = 'hai ' + this.name + ', apa kabar?';
+    });
   }
 
 }
